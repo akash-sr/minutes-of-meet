@@ -19,6 +19,7 @@ function getSignedRequest(file){
         if(xhr.readyState === 4){
             if(xhr.status === 200){
                 var response = JSON.parse(xhr.responseText);
+                console.log(response);
                 uploadFile(file, response.data, response.url);
             }
             else{

@@ -5,7 +5,6 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    S3_BUCKET = os.environ["S3_BUCKET_NAME"]
     return render_template("index.html", bucketName = S3_BUCKET)
 
 @app.route("/record")
@@ -16,6 +15,7 @@ def record():
 def upload():     
     if request.method == 'POST':
         print(request.files['raw_audio'].filename)
+        print(request.form['audio_url'])
         return redirect(url_for("summary"))
     return render_template("upload.html")
         
