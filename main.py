@@ -5,7 +5,8 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    S3_BUCKET = os.environ["S3_BUCKET_NAME"]
+    return render_template("index.html", bucketName = S3_BUCKET)
 
 @app.route("/record")
 def record():
@@ -20,7 +21,7 @@ def upload():
         
 @app.route("/sign_s3")
 def sign_s3():
-    S3_BUCKET = os.environ.get("S3_BUCKET")
+    S3_BUCKET = os.environ["S3_BUCKET_NAME"]
 
     file_name = request.args.get("file_name")
     file_type = request.args.get("file_type")
