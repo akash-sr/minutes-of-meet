@@ -1,16 +1,15 @@
 var audio_input = document.getElementById('audio-input');
 var audio_url = document.getElementById('audio-url');
 
-(function(){
-    audio_input.onchange = function(){
-        var files = audio_input.files;
-        var file = files[0];
-        if(!file){
-            return alert("No file selected.");
-        }
-        getSignedRequest(file);
+
+audio_input.onchange = function(){
+    var files = audio_input.files;
+    var file = files[0];
+    if(!file){
+        return alert("No file selected.");
     }
-})();
+    getSignedRequest(file);
+}
 
 function getSignedRequest(file){
     var xhr = new XMLHttpRequest();
