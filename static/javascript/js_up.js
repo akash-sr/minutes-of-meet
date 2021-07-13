@@ -1,8 +1,9 @@
 var audio_input = document.getElementById('audio-input');
 var audio_url = document.getElementById('audio-url');
 
+audio_input.addEventListener('change', handle);
 
-audio_input.onchange = function(){
+function handle(){
     var files = audio_input.files;
     var file = files[0];
     if(!file){
@@ -22,7 +23,7 @@ function getSignedRequest(file){
                 uploadFile(file, response.data, response.url);
             }
             else{
-                alert("Could not get signed URL.");
+                alert("Could not get signed URL."+xhr.status);
             }
         }
     };
