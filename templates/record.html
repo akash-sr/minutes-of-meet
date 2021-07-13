@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Record</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Open+Sans:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles_rec.css') }}">
+</head>
+<body>
+    <h1>Minutes of the Meet</h1>
+    <div class="wrapper">
+        <section class="main-controls">
+          <canvas class="visualizer" height="60px"></canvas>
+          <div id="buttons">
+            <button class="record"><img src="{{url_for('static',filename='assets/mic.png')}}" alt="record"></button>
+            <button class="stop"><img src="{{url_for('static',filename='assets/pause.png')}}" alt="stop"></button>
+          </div>
+        </section>
+  
+    <section class="sound-clips">  
+    </section>
+    </div>
+    <script src="{{ url_for('static', filename='javascript/js_record.js') }}"></script>  
+</body>
+</html>

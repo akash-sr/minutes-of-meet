@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Summarizer</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Open+Sans:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link href="{{ url_for('static', filename='styles/styles_index.css') }}" rel="stylesheet">
+</head>
+<body>
+    <h1>Minutes of the Meet</h1>
+    <div class="buttons">
+        <a href="record"><button class="record">Record</button></a>
+        <div class="waves">
+            <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+            <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_k9hpfwdn.json"  background="transparent"  speed="0.5"  style="width: 150px; height: 150px;"  loop  autoplay></lottie-player>
+        </div>
+        <a href="upload"><button class="upload">Upload</button></a>
+    </div> 
+    <div class="typewriter">
+        <p>zero one <span class="typed-text"></span><span class="cursor">&nbsp;</span></p>
+    </div>   
+    <script src="{{ url_for('static', filename='javascript/js_index.js') }}"></script>
+</body>
+</html>

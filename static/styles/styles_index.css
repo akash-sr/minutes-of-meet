@@ -1,0 +1,87 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: black;
+    color: white;
+    text-align: center;
+    width: 80%;
+    margin: auto;
+    align-items: center;
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1{
+    margin-top: 15%;
+    margin-bottom: 10%;
+    font-size: 50px;
+}
+
+.buttons{
+    display: flex;
+    justify-content:space-evenly;
+    align-items: center;
+    height: 50px;
+}
+
+.buttons button{
+    border-color: white;
+    border-style: solid;
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+    background:none;
+    width: 200px;
+    height: 45px;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+}
+
+.buttons button:hover{
+    border-color: black;
+    background-color: white;
+    color: black;
+    font-weight: bold;
+}
+
+.typewriter{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10%;
+    font-size: 40px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.typewriter p{
+    letter-spacing: 0.1rem;
+    text-align: center;
+    color: white;
+    overflow: hidden;
+    padding: 0.5rem;
+}
+
+.typed-text{
+    color: gray;
+}
+
+.cursor{
+    display: inline-block;
+    width: 2px;
+    background-color: white;
+    margin-left: 0.1rem;
+    animation: blink 1s infinite;
+}
+.cursor.typing{
+    animation: none;
+}
+@keyframes blink{
+    0%  { background-color: white; }
+    49%  { background-color: white; }
+    50% { background-color: transparent; }
+    99% { background-color: transparent; } 
+    100%{ background-color: white; }
+}
+
