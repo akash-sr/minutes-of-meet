@@ -1,5 +1,5 @@
-const audio_input = document.getElementById("audio_input")
-const audio_url = document.getElementById("audio_url")
+var audio_input = document.getElementById('audio-input');
+var audio_url = document.getElementById('audio-url');
 
 (function(){
     audio_input.onchange = function(){

@@ -13,8 +13,8 @@
 <body>
     <h1>Minutes of the Meet</h1>
     <form action="upload" method="post" enctype="multipart/form-data">
-        <input type="hidden" id="audio_url" name="audio_url" value="">
-        <input type="file" id="audio_input" name="raw_audio">
+        <input type="hidden" id="audio-url" name="audio_url" value="">
+        <input type="file" id="audio-input" name="raw_audio">
         <input type="submit" value="Generate Summary">
     </form>
     <script src="{{url_for('static',filename='javascript/js_up.js')}}"></script>
