@@ -14,7 +14,7 @@ def record():
 @app.route("/upload", methods=['GET','POST'])
 def upload():     
     if request.method == 'POST':
-        print(request.files['audio_file'].filename)
+        print(request.files['raw_audio'].filename)
         return redirect(url_for("summary"))
     return render_template("upload.html")
         
