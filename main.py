@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return render_template("index.html", bucketName = S3_BUCKET)
+    return render_template("index.html")
 
 @app.route("/record")
 def record():
