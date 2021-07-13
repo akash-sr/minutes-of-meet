@@ -23,7 +23,7 @@ function getSignedRequest(file){
                 uploadFile(file, response.data, response.url);
             }
             else{
-                alert("Could not get signed URL."+xhr.status);
+                alert("Could not get signed URL.");
             }
         }
     };
@@ -46,6 +46,7 @@ function uploadFile(file, s3Data, url){
                 audio_url.value = url;
             }
             else{
+                alert(xhr.status);
                 alert("Could not upload file.");
             }
         }
