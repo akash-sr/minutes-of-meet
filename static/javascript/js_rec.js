@@ -4,7 +4,8 @@ const pause = document.querySelector('.pause');
 const soundClips = document.querySelector('.sound-clips');
 const canvas = document.querySelector('.visualizer');
 const mainSection = document.querySelector('.main-controls');
-
+const audio_input = document.getElementById('audio-input');
+const audio_url = document.getElementById('audio-url');
 // disable stop button while not recording
 
 pause.disabled = true;
@@ -73,6 +74,7 @@ if (navigator.mediaDevices.getUserMedia) {
       clipContainer.appendChild(clipLabel);
       soundClips.appendChild(clipContainer);
       soundClips.appendChild(uploadButton);
+      uploadButton.textContent = 'Upload'
       audio.controls = true;
       const blob = new Blob(chunks, { 'type' : 'audio/wav; codecs=MS_PCM' });
       const raw_audio = new File([blob], "raw_audio.wav", {
@@ -84,14 +86,10 @@ if (navigator.mediaDevices.getUserMedia) {
       console.log("recorder stopped");
 
       uploadButton.onclick = function(e){
-        var formData = new FormData();
-        formData.append("raw_audio", raw_audio);
-        var request = new XMLHttpRequest();
-        request.open("POST","process");
-        request.send(formData);
-        request = new XMLHttpRequest();
-        request.open("GET","summary");
-        request.send();
+        let formData = new FormData();
+        formData.append("photo", raw_audio);
+        fetch("process", {method: "POST", body: formData});
+        fetch("record",{method: "GET"});
       }
     }
 

@@ -27,20 +27,19 @@ def process():
 
 @app.route("/upload", methods= ['GET','POST'])
 def upload():   
-    if request == 'POST':
+    if request == 'POST': 
         raw_audio = request.files['raw_audio']
         raw_audio.save(secure_filename(raw_audio.filename))
         print(raw_audio.filename)
         processed_audio = engine.pre_process_audio(raw_audio.filename)
         transcription = engine.transcribe(processed_audio)
         return redirect(url_for("summary", result = transcription))  
-    return render_template("upload.html")
+    else:
+        return render_template("upload.html")
 
-@app.route("/summary")
+@app.route("/summary/<result>")
 def summary(result):
     return render_template("summary.html",result=result)
-
-
 
 if __name__ == "__main__":
     app.run(debug=True)
