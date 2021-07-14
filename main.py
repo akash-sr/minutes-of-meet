@@ -20,14 +20,20 @@ def process():
         raw_audio = request.files['raw_audio']
         raw_audio.save(secure_filename(raw_audio.filename))
         print(raw_audio.filename)
+        # processed_audio = engine.pre_process_audio(raw_audio.filename)
+        # transcription = engine.transcribe(processed_audio)
+        return redirect(url_for("summary", result = raw_audio.filename))
+    return redirect(url_for("summary", result = "transcription failed")) 
+
+@app.route("/upload", methods= ['GET','POST'])
+def upload():   
+    if request == 'POST':
+        raw_audio = request.files['raw_audio']
+        raw_audio.save(secure_filename(raw_audio.filename))
+        print(raw_audio.filename)
         processed_audio = engine.pre_process_audio(raw_audio.filename)
         transcription = engine.transcribe(processed_audio)
-        return redirect(url_for("summary", result = transcription))
-    return redirect(url_for("summary", result = "transcription failed"))
-
-
-@app.route("/upload")
-def upload():     
+        return redirect(url_for("summary", result = transcription))  
     return render_template("upload.html")
 
 @app.route("/summary")

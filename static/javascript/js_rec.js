@@ -4,7 +4,6 @@ const pause = document.querySelector('.pause');
 const soundClips = document.querySelector('.sound-clips');
 const canvas = document.querySelector('.visualizer');
 const mainSection = document.querySelector('.main-controls');
-const uploadButton = document.querySelector('.upload')
 
 // disable stop button while not recording
 
@@ -60,7 +59,7 @@ if (navigator.mediaDevices.getUserMedia) {
       const clipContainer = document.createElement('article');
       const clipLabel = document.createElement('p');
       const audio = document.createElement('audio');
-
+      const uploadButton = document.createElement('button');
       clipContainer.classList.add('clip');
       audio.setAttribute('controls', '');
       if(clipName === null) {
@@ -73,7 +72,7 @@ if (navigator.mediaDevices.getUserMedia) {
       clipContainer.appendChild(audio);
       clipContainer.appendChild(clipLabel);
       soundClips.appendChild(clipContainer);
-
+      soundClips.appendChild(uploadButton);
       audio.controls = true;
       const blob = new Blob(chunks, { 'type' : 'audio/wav; codecs=MS_PCM' });
       const raw_audio = new File([blob], "raw_audio.wav", {
@@ -90,6 +89,9 @@ if (navigator.mediaDevices.getUserMedia) {
         var request = new XMLHttpRequest();
         request.open("POST","process");
         request.send(formData);
+        request = new XMLHttpRequest();
+        request.open("GET","summary");
+        request.send();
       }
     }
 
