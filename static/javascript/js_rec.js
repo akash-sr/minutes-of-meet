@@ -1,14 +1,14 @@
 // set up basic variables for app
-
 const record = document.querySelector('.record');
-const stop = document.querySelector('.stop');
+const pause = document.querySelector('.pause');
 const soundClips = document.querySelector('.sound-clips');
 const canvas = document.querySelector('.visualizer');
 const mainSection = document.querySelector('.main-controls');
+const uploadButton = document.querySelector('.upload')
 
 // disable stop button while not recording
 
-stop.disabled = true;
+pause.disabled = true;
 
 // visualiser setup - create web audio api context and canvas
 
@@ -24,7 +24,7 @@ if (navigator.mediaDevices.getUserMedia) {
   let chunks = [];
   var options = {
     audioBitsPerSecond : 16000,
-    mimeType: 'audio/wav'
+    mimeType: 'audio/webm'
   };
   let onSuccess = function(stream) {
     const mediaRecorder = new MediaRecorder(stream, options);
@@ -37,18 +37,18 @@ if (navigator.mediaDevices.getUserMedia) {
       console.log("recorder started");
       record.style.background = "red";
 
-      stop.disabled = false;
+      pause.disabled = false;
       record.disabled = true;
     }
 
-    stop.onclick = function() {
+    pause.onclick = function() {
       mediaRecorder.stop();
       console.log(mediaRecorder.state);
       console.log("recorder stopped");
       record.style.background = "";
       record.style.color = "";
 
-      stop.disabled = true;
+      pause.disabled = true;
       record.disabled = false;
     }
 
@@ -60,13 +60,9 @@ if (navigator.mediaDevices.getUserMedia) {
       const clipContainer = document.createElement('article');
       const clipLabel = document.createElement('p');
       const audio = document.createElement('audio');
-      const uploadButton = document.createElement('button');
 
       clipContainer.classList.add('clip');
       audio.setAttribute('controls', '');
-      uploadButton.textContent = 'Upload';
-      uploadButton.className = 'upload';
-
       if(clipName === null) {
         clipLabel.textContent = 'My unnamed clip';
       } 
@@ -76,11 +72,10 @@ if (navigator.mediaDevices.getUserMedia) {
 
       clipContainer.appendChild(audio);
       clipContainer.appendChild(clipLabel);
-      clipContainer.appendChild(uploadButton);
       soundClips.appendChild(clipContainer);
 
       audio.controls = true;
-      const blob = new Blob(chunks, { 'type' : 'audio/wav' });
+      const blob = new Blob(chunks, { 'type' : 'audio/wav; codecs=MS_PCM' });
       const raw_audio = new File([blob], "raw_audio.wav", {
         type: blob.type,
       });
@@ -93,7 +88,7 @@ if (navigator.mediaDevices.getUserMedia) {
         var formData = new FormData();
         formData.append("raw_audio", raw_audio);
         var request = new XMLHttpRequest();
-        request.open("POST","/upload");
+        request.open("POST","process");
         request.send(formData);
       }
     }

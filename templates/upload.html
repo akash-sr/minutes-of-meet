@@ -12,11 +12,10 @@
 </head>
 <body>
     <h1>Minutes of the Meet</h1>
-    <form action="upload" id = "audio-from" method="post" enctype="multipart/form-data">
+    <form action="process" id = "audio-from" method="post" enctype="multipart/form-data">
         <input type="hidden" id="audio-url" name="audio_url" value="">
         <input type="file" id="audio-input" name="raw_audio">
         <input type="submit" value="Generate Summary">
     </form>
-    <script src="{{url_for('static',filename='javascript/js_up.js')}}"></script>
 </body>
 </html>
