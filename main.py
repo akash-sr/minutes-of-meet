@@ -1,5 +1,5 @@
 from flask import Flask, render_template, flash, request, redirect, url_for, send_from_directory, make_response, jsonify
-import os, json, boto3
+import os, json
 
 app = Flask(__name__)
 
@@ -14,35 +14,34 @@ def record():
 @app.route("/upload", methods=['GET','POST'])
 def upload():     
     if request.method == 'POST':
-        print(request.files['raw_audio'].filename)
-        print(request.form['audio_url'])
         return redirect(url_for("summary"))
     return render_template("upload.html")
         
-@app.route("/sign_s3")
-def sign_s3():
-    S3_BUCKET = os.environ["S3_BUCKET_NAME"]
+# @app.route("/sign_s3")
+# def sign_s3():
+#     S3_BUCKET = os.environ["S3_BUCKET_NAME"]
 
-    file_name = request.args.get("file_name")
-    file_type = request.args.get("file_type")
+#     file_name = request.args.get("file_name")
+#     file_type = request.args.get("file_type")
 
-    s3 = boto3.client("s3")
+#     s3 = boto3.client("s3")
 
-    presigned_post = s3.generate_presigned_post(
-        Bucket = S3_BUCKET,
-        Key = file_name,
-        Fields = {"acl": "public-read", "Content-Type": file_type},
-        Conditions = [
-            {"acl": "public-read"},
-            {"Content-Type": file_type}
-        ],
-        ExpiresIn = 3600
-    )
+#     presigned_post = s3.generate_presigned_post(
+#         Bucket = S3_BUCKET,
+#         Key = file_name,
+#         Fields = {"acl": "public-read", "Content-Type": file_type},
+#         Conditions = [
+#             {"acl": "public-read"},
+#             {"Content-Type": file_type}
+#         ],
+#         ExpiresIn = 3600
+#     )
 
-    return json.dumps({
-        "data"  : presigned_post,
-        "url"   : f"https://{S3_BUCKET}.s3.amazonaws.com/{file_name}"  
-    })
+#     return json.dumps({
+#         "data"  : presigned_post,
+#         "url"   : f"https://{S3_BUCKET}.s3.amazonaws.com/{file_name}"  
+#     })
+
 
 @app.route("/summary")
 def summary():
