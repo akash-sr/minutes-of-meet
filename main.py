@@ -1,7 +1,11 @@
 from flask import Flask, render_template, flash, request, redirect, url_for, send_from_directory, make_response, jsonify
 import os, json
+from werkzeug.utils import secure_filename
+import engine
 
 app = Flask(__name__)
+
+audio_path = "audio"
 
 @app.route("/")
 def home():
@@ -14,7 +18,12 @@ def record():
 @app.route("/upload", methods=['GET','POST'])
 def upload():     
     if request.method == 'POST':
-        return redirect(url_for("summary"))
+        raw_audio = request.files['raw_audio']
+        raw_audio.save(os.path.join(audio_path, secure_filename(raw_audio.filename)))
+        processed_audio = engine.pre_process_audio(raw_audio.filename, audio_path)
+        transcription = engine.transcribe(processed_audio)
+        print(transcription)
+        return redirect(url_for("summary", result=transcription))
     return render_template("upload.html")
         
 # @app.route("/sign_s3")
@@ -43,9 +52,9 @@ def upload():
 #     })
 
 
-@app.route("/summary")
-def summary():
-    return render_template("summary.html")
+@app.route("/summary/<result>")
+def summary(result):
+    return render_template("summary.html",result=result)
 
 
 if __name__ == "__main__":
