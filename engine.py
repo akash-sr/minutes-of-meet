@@ -14,15 +14,16 @@ ds = Model(model_path)
 ds.enableExternalScorer(scorer_path)
 
 # wrapper function to pre-process the audio the raw audio: converts it to bitrate 16kHz and only one channel (mono)
-def pre_process_audio(raw_audio, audio_path, processed_audio='processed_audio.wav'):
+def pre_process_audio(raw_audio, processed_audio='processed_audio.wav'):
   extension = raw_audio[-3:]
   if extension != 'wav':
       print("Invalid File Format!")
       quit()
-  audio = AudioSegment.from_file(os.path.join(audio_path,raw_audio))
+  audio = AudioSegment.from_file(raw_audio)
   audio = audio.set_frame_rate(16000).set_channels(1)
-  audio.export(os.path.join(audio_path,processed_audio), format="wav") #exporting to .wav format
-  return os.path.join(audio_path,processed_audio)
+  audio.export(processed_audio, format="wav") #exporting to .wav format
+  os.remove(raw_audio)
+  return processed_audio
 
 # function to transcribe the processed audio
 def transcribe(processed_audio):
