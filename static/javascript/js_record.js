@@ -22,9 +22,12 @@ if (navigator.mediaDevices.getUserMedia) {
 
   const constraints = { audio: true };
   let chunks = [];
-
+  var options = {
+    audioBitsPerSecond : 16000,
+    mimeType: 'audio/wav'
+  };
   let onSuccess = function(stream) {
-    const mediaRecorder = new MediaRecorder(stream);
+    const mediaRecorder = new MediaRecorder(stream, options);
 
     visualize(stream);
 
@@ -44,61 +47,55 @@ if (navigator.mediaDevices.getUserMedia) {
       console.log("recorder stopped");
       record.style.background = "";
       record.style.color = "";
-      // mediaRecorder.requestData();
 
       stop.disabled = true;
       record.disabled = false;
     }
 
     mediaRecorder.onstop = function(e) {
-      // var xhr = new XMLHttpRequest();
-      // xhr.open("POST", "/upload");
-      // console.log("data available after MediaRecorder.stop() called.");
+      console.log("data available after MediaRecorder.stop() called.");
 
-      // const clipName = prompt('Enter a name for your sound clip?','My unnamed clip');
+      const clipName = prompt('Enter a name for your sound clip?','My unnamed clip');
 
-      // const clipContainer = document.createElement('article');
-      // const clipLabel = document.createElement('p');
-      // const audio = document.createElement('audio');
-      // const deleteButton = document.createElement('button');
+      const clipContainer = document.createElement('article');
+      const clipLabel = document.createElement('p');
+      const audio = document.createElement('audio');
+      const uploadButton = document.createElement('button');
 
-      // clipContainer.classList.add('clip');
-      // audio.setAttribute('controls', '');
-      // deleteButton.textContent = 'Delete';
-      // deleteButton.className = 'delete';
+      clipContainer.classList.add('clip');
+      audio.setAttribute('controls', '');
+      uploadButton.textContent = 'Upload';
+      uploadButton.className = 'upload';
 
-      // if(clipName === null) {
-      //   clipLabel.textContent = 'My unnamed clip';
-      // } else {
-      //   clipLabel.textContent = clipName;
-      // }
+      if(clipName === null) {
+        clipLabel.textContent = 'My unnamed clip';
+      } 
+      else {
+        clipLabel.textContent = clipName;
+      }
 
-      // clipContainer.appendChild(audio);
-      // clipContainer.appendChild(clipLabel);
-      // clipContainer.appendChild(deleteButton);
-      // soundClips.appendChild(clipContainer);
+      clipContainer.appendChild(audio);
+      clipContainer.appendChild(clipLabel);
+      clipContainer.appendChild(uploadButton);
+      soundClips.appendChild(clipContainer);
 
-      // audio.controls = true;
-      // const blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
-      // chunks = [];
-      // const audioURL = window.URL.createObjectURL(blob);
-      // audio.src = audioURL;
-      // console.log("recorder stopped");
+      audio.controls = true;
+      const blob = new Blob(chunks, { 'type' : 'audio/wav' });
+      const raw_audio = new File([blob], "raw_audio.wav", {
+        type: blob.type,
+      });
+      chunks = [];
+      const audioURL = window.URL.createObjectURL(raw_audio);
+      audio.src = audioURL;
+      console.log("recorder stopped");
 
-      // deleteButton.onclick = function(e) {
-      //   let evtTgt = e.target;
-      //   evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode);
-      // }
-
-      // clipLabel.onclick = function() {
-      //   const existingName = clipLabel.textContent;
-      //   const newClipName = prompt('Enter a new name for your sound clip?');
-      //   if(newClipName === null) {
-      //     clipLabel.textContent = existingName;
-      //   } else {
-      //     clipLabel.textContent = newClipName;
-      //   }
-      // }
+      uploadButton.onclick = function(e){
+        var formData = new FormData();
+        formData.append("raw_audio", raw_audio);
+        var request = new XMLHttpRequest();
+        request.open("POST","/upload");
+        request.send(formData);
+      }
     }
 
     mediaRecorder.ondataavailable = function(e) {
@@ -112,7 +109,8 @@ if (navigator.mediaDevices.getUserMedia) {
 
   navigator.mediaDevices.getUserMedia(constraints).then(onSuccess, onError);
 
-} else {
+} 
+else {
    console.log('getUserMedia not supported on your browser!');
 }
 
@@ -129,7 +127,6 @@ function visualize(stream) {
   const dataArray = new Uint8Array(bufferLength);
 
   source.connect(analyser);
-  //analyser.connect(audioCtx.destination);
 
   draw()
 
