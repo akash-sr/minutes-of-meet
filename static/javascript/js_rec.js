@@ -4,8 +4,7 @@ const pause = document.querySelector('.pause');
 const soundClips = document.querySelector('.sound-clips');
 const canvas = document.querySelector('.visualizer');
 const mainSection = document.querySelector('.main-controls');
-const audio_input = document.getElementById('audio-input');
-const audio_url = document.getElementById('audio-url');
+
 // disable stop button while not recording
 
 pause.disabled = true;
@@ -23,7 +22,6 @@ if (navigator.mediaDevices.getUserMedia) {
   const constraints = { audio: true };
   let chunks = [];
   var options = {
-    audioBitsPerSecond : 16000,
     mimeType: 'audio/webm'
   };
   let onSuccess = function(stream) {
@@ -61,6 +59,7 @@ if (navigator.mediaDevices.getUserMedia) {
       const clipLabel = document.createElement('p');
       const audio = document.createElement('audio');
       const uploadButton = document.createElement('button');
+      uploadButton.classList.add('upload')
       clipContainer.classList.add('clip');
       audio.setAttribute('controls', '');
       if(clipName === null) {
@@ -74,10 +73,10 @@ if (navigator.mediaDevices.getUserMedia) {
       clipContainer.appendChild(clipLabel);
       soundClips.appendChild(clipContainer);
       soundClips.appendChild(uploadButton);
-      uploadButton.textContent = 'Upload'
+      uploadButton.textContent = 'Transcribe'
       audio.controls = true;
-      const blob = new Blob(chunks, { 'type' : 'audio/wav; codecs=MS_PCM' });
-      const raw_audio = new File([blob], "raw_audio.wav", {
+      const blob = new Blob(chunks, { 'type' : 'audio/webm' });
+      const raw_audio = new File([blob], "raw_audio.webm", {
         type: blob.type,
       });
       chunks = [];
@@ -86,10 +85,30 @@ if (navigator.mediaDevices.getUserMedia) {
       console.log("recorder stopped");
 
       uploadButton.onclick = function(e){
-        let formData = new FormData();
-        formData.append("photo", raw_audio);
-        fetch("process", {method: "POST", body: formData});
-        fetch("record",{method: "GET"});
+        const progress = document.createElement('progress');
+        clipContainer.appendChild(progress);
+        var formData = new FormData();
+        formData.append("raw_audio", raw_audio);
+        var request = new XMLHttpRequest();
+        request.open("POST","process");
+        request.onload = function(){
+          if(request.status == 200)
+            window.location.replace("summary");
+        }
+        request.upload.onprogress = function (e) {
+            if (e.lengthComputable) {
+                progressBar.max = e.total;
+                progressBar.value = e.loaded;
+            }
+        }
+        request.upload.onloadstart = function (e) {
+            progressBar.value = 0;
+        }
+        request.upload.onloadend = function (e) {
+            progressBar.value = e.loaded;
+        }
+        request.send(formData);
+        request.responseText
       }
     }
 

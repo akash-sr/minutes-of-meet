@@ -40,3 +40,24 @@ h1{
 .sound-clips{
     margin-top: 5%;
 }
+
+.upload{
+    margin-top: 10px;
+    border-color: white;
+    border-style: solid;
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+    background:none;
+    width: 200px;
+    height: 45px;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+}
+
+.upload:hover{
+    border-color: black;
+    background-color: white;
+    color: black;
+    font-weight: bold;
+}
