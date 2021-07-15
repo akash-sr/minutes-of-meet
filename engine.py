@@ -3,16 +3,21 @@ import scipy.io.wavfile as wav
 from pydub import AudioSegment
 import os
 
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+
 # set acoustic and language model paths
-model_path  = "model/deepspeech-0.9.3-models.pbmm"
-scorer_path = "model/deepspeech-0.9.3-models.scorer"
+model_path  = "model/asr-model/deepspeech-0.9.3-models.pbmm"
+scorer_path = "model/asr-model/deepspeech-0.9.3-models.scorer"
 
-# allowed_extensions = ['wav','webm','ogg','mp3']
-
+# asr-model initialization
 # instantiate an object of the model using the acoustic model path
 ds = Model(model_path)
 # set the language model
 ds.enableExternalScorer(scorer_path)
+
+# nlp-model initialization
+tokenizer        = AutoTokenizer.from_pretrained("model/nlp-model/tokenizer/")
+summarizer_model = AutoModelForSeq2SeqLM.from_pretrained("model/nlp-model/model/")
 
 # wrapper function to pre-process the audio the raw audio: converts it to bitrate 16kHz and only one channel (mono)
 def pre_process_audio(raw_audio, processed_audio='processed_audio.wav'):
@@ -32,5 +37,12 @@ def transcribe(processed_audio):
     transcription = ds.stt(audio)
     # delete the porcessed audio
     os.remove(processed_audio)
-    return ds.stt(audio)
+    return transcription
+
+# function to generate the summary
+def generate_summary(transcription):
+  inputs     = tokenizer(transcription,truncation=True,return_tensors='pt')
+  prediction = summarizer_model.generate(**inputs)
+  summary    = tokenizer.batch_decode(prediction,skip_special_tokens=True)
+  return summary[0]
 

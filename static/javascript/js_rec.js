@@ -93,7 +93,7 @@ if (navigator.mediaDevices.getUserMedia) {
         request.open("POST","process");
         request.onload = function(){
           if(request.status == 200)
-            window.location.replace("summary");
+            window.location.replace("summarize");
         }
         request.upload.onprogress = function (e) {
             if (e.lengthComputable) {

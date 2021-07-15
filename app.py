@@ -39,18 +39,27 @@ def upload():
         f = open("transcription.txt","w")
         f.write(transcription)
         f.close()
-        return redirect(url_for("summary"))
+        return redirect(url_for("summarize"))
     else:
         return render_template("upload.html")
 
-@app.route("/summary")
-def summary():
+@app.route("/summarize")
+def summarize():
     f = open("transcription.txt", "r")
     transcription = f.read()
+    summary = engine.generate_summary(transcription)
     f.close()
-    os.remove("transcription.txt")
-    return render_template("summary.html", result = transcription)
+    f = open("summary.txt","w")
+    f.write(summary)
+    f.close()
+    return redirect(url_for("result"))
 
+@app.route("/result")
+def result():
+    f = open("summary.txt","r")
+    summary = f.read()
+    f.close()
+    return render_template("result.html",result=summary)
 
 if __name__ == "__main__":
     app.run(debug=True)
