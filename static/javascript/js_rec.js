@@ -73,7 +73,7 @@ if (navigator.mediaDevices.getUserMedia) {
       clipContainer.appendChild(clipLabel);
       soundClips.appendChild(clipContainer);
       soundClips.appendChild(uploadButton);
-      uploadButton.textContent = 'Transcribe'
+      uploadButton.textContent = 'Generate Summary'
       audio.controls = true;
       const blob = new Blob(chunks, { 'type' : 'audio/webm' });
       const raw_audio = new File([blob], "raw_audio.webm", {
@@ -108,7 +108,6 @@ if (navigator.mediaDevices.getUserMedia) {
             progressBar.value = e.loaded;
         }
         request.send(formData);
-        request.responseText
       }
     }
 

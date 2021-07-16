@@ -19,9 +19,10 @@ def process():
     if request.method == 'POST':
         raw_audio = request.files['raw_audio']
         raw_audio.save(secure_filename(raw_audio.filename))
-        processed_audio = engine.pre_process_audio(raw_audio.filename)
+        # processed_audio = engine.pre_process_audio(raw_audio.filename)
+        # transcription = engine.transcribe(processed_audio)
+        transcription = engine.transcribeIBM(raw_audio.filename)
         f = open("transcription.txt","w")
-        transcription = engine.transcribe(processed_audio)
         f.write(transcription)
         f.close()
         return jsonify({
@@ -34,8 +35,9 @@ def upload():
     if request.method == 'POST': 
         raw_audio = request.files['raw_audio']
         raw_audio.save(secure_filename(raw_audio.filename))
-        processed_audio = engine.pre_process_audio(raw_audio.filename)
-        transcription = engine.transcribe(processed_audio)
+        # processed_audio = engine.pre_process_audio(raw_audio.filename)
+        # transcription = engine.transcribe(processed_audio)
+        transcription = engine.transcribeIBM(raw_audio.filename)
         f = open("transcription.txt","w")
         f.write(transcription)
         f.close()
@@ -49,9 +51,9 @@ def summarize():
     transcription = f.read()
     summary = engine.generate_summary(transcription)
     f.close()
-    f = open("summary.txt","w")
-    f.write(summary)
-    f.close()
+    # f = open("summary.txt","w")
+    # f.write(summary)
+    # f.close()
     return redirect(url_for("result"))
 
 @app.route("/result")
