@@ -84,11 +84,22 @@ def pre_process_audio(raw_audio, processed_audio='processed_audio.wav'):
 """
 
 # function to generate the summary
+# def generate_summary(transcription):
+#   inputs     = tokenizer(transcription,truncation=True,return_tensors='pt')
+#   prediction = summarizer_model.generate(**inputs)
+#   summary    = tokenizer.batch_decode(prediction,skip_special_tokens=True)
+#   return summary[0]
+
+# function to generate the summary considering the small inputs
 def generate_summary(transcription):
-  inputs     = tokenizer(transcription,truncation=True,return_tensors='pt')
-  prediction = summarizer_model.generate(**inputs)
-  summary    = tokenizer.batch_decode(prediction,skip_special_tokens=True)
-  return summary[0]
+  number_of_words = len(transcription.split())
+  if (number_of_words < 50):
+    summary = [transcription]
+  else:
+    inputs             = tokenizer(transcription,truncation=True,return_tensors='pt')
+    prediction         = summarizer_model.generate(**inputs)
+    summary            = tokenizer.batch_decode(prediction,skip_special_tokens=True)
+  return(summary[0])
 
 
 
