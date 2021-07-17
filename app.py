@@ -51,9 +51,9 @@ def summarize():
     transcription = f.read()
     summary = engine.generate_summary(transcription)
     f.close()
-    # f = open("summary.txt","w")
-    # f.write(summary)
-    # f.close()
+    f = open("summary.txt","w")
+    f.write(summary)
+    f.close()
     return redirect(url_for("result"))
 
 @app.route("/result")
