@@ -19,9 +19,9 @@ def process():
     if request.method == 'POST':
         raw_audio = request.files['raw_audio']
         raw_audio.save(secure_filename(raw_audio.filename))
-        # processed_audio = engine.pre_process_audio(raw_audio.filename)
-        # transcription = engine.transcribe(processed_audio)
-        transcription = engine.transcribeIBM(raw_audio.filename)
+        processed_audio = engine.pre_process_audio(raw_audio.filename)
+        transcription = engine.transcribe(processed_audio)
+        # transcription = engine.transcribeIBM(raw_audio.filename)
         f = open("transcription.txt","w")
         f.write(transcription)
         f.close()
@@ -31,13 +31,13 @@ def process():
     return redirect(url_for("/"))
 
 @app.route("/upload", methods= ['GET','POST'])
-def upload():   
-    if request.method == 'POST': 
+def upload():
+    if request.method == 'POST':
         raw_audio = request.files['raw_audio']
         raw_audio.save(secure_filename(raw_audio.filename))
-        # processed_audio = engine.pre_process_audio(raw_audio.filename)
-        # transcription = engine.transcribe(processed_audio)
-        transcription = engine.transcribeIBM(raw_audio.filename)
+        # transcription = engine.transcribeIBM(raw_audio.filename)
+        processed_audio = engine.pre_process_audio(raw_audio.filename)
+        transcription = engine.transcribe(processed_audio)
         f = open("transcription.txt","w")
         f.write(transcription)
         f.close()
