@@ -8,12 +8,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Open+Sans:wght@600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{url_for('static',filename='styles/styles_up.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',path='styles/styles_up.css')}}">
 </head>
 <body>
     <h1>Minutes-of-Meet</h1>
     <form action="upload" id = "audio-from" method="post" enctype="multipart/form-data">
-        <input type="hidden" id="audio-url" name="audio_url" value="">
         <input type="file" id="audio-input" name="raw_audio">
         <input type="submit" id = "execute" value="Generate Summary">
     </form>

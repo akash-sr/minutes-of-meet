@@ -45,8 +45,8 @@ stt.set_service_url(URL)
 """
 
 # nlp-model initialization
-tokenizer        = AutoTokenizer.from_pretrained("model/nlp-model/tokenizer/")
-summarizer_model = AutoModelForSeq2SeqLM.from_pretrained("model/nlp-model/model/")
+tokenizer        = AutoTokenizer.from_pretrained("model/nlp-model/tokenizer/",local_files_only=True)
+summarizer_model = AutoModelForSeq2SeqLM.from_pretrained("model/nlp-model/model/",local_files_only=True)
 
 # function to transcribe the processed audio
 def transcribe(processed_audio):
@@ -72,12 +72,6 @@ def transcribeIBM(audio_clip):
 
 # wrapper function to pre-process the audio the raw audio: converts it to bitrate 16kHz and only one channel (mono)
 def pre_process_audio(raw_audio, processed_audio='processed_audio.wav'):
-  # extension = raw_audio[-3:]
-  # if extension not in allowed_extensions:
-  #   return ""
-  audio = AudioSegment.from_file(raw_audio)
-  # audio = audio.set_frame_rate(16000).set_channels(1)
-  # audio.export(processed_audio, format="wav") #exporting to .wav format
   os.system("ffmpeg -i "+ raw_audio+ " -ac 1 -ar 16000"+" " + processed_audio )
   os.remove(raw_audio)
   return processed_audio
