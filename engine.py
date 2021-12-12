@@ -36,6 +36,14 @@ ds = Model(model_path)
 # set the language model
 ds.enableExternalScorer(scorer_path)
 
+# function to transcribe the processed audio
+def transcribe(processed_audio):
+    fs, audio = wav.read(processed_audio)
+    transcription = ds.stt(audio)
+    # delete the porcessed audio
+    os.remove(processed_audio)
+    return transcription
+
 """
 # asr-IBM-model initialization
 authenticator = IAMAuthenticator(API_KEY) 
@@ -48,13 +56,6 @@ stt.set_service_url(URL)
 tokenizer        = AutoTokenizer.from_pretrained("model/nlp-model/tokenizer/",local_files_only=True)
 summarizer_model = AutoModelForSeq2SeqLM.from_pretrained("model/nlp-model/model/",local_files_only=True)
 
-# function to transcribe the processed audio
-def transcribe(processed_audio):
-    fs, audio = wav.read(processed_audio)
-    transcription = ds.stt(audio)
-    # delete the porcessed audio
-    os.remove(processed_audio)
-    return transcription
 
 """
 def transcribeIBM(audio_clip):
