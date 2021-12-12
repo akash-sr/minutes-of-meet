@@ -1,6 +1,10 @@
 # minutesOfMeet
 
-![intro-gif](assets/introgif.gif)
+<p align = "center">
+    <img src="assets/introgif.gif">
+</p>
+
+
 
 > Automatic Minutes of Meet Generator
 
